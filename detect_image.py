@@ -1,16 +1,18 @@
 import os
-import tensorflow as tf
-from object_detection.utils import label_map_util
-from object_detection.utils import visualization_utils as viz_utils
-from object_detection.builders import model_builder
-from object_detection.utils import config_util
-from matplotlib import pyplot as plt
 import cv2 
 import numpy as np
+import tensorflow as tf
+import matplotlib
+from matplotlib import pyplot as plt
+from object_detection.utils import config_util
+from object_detection.utils import label_map_util
+from object_detection.builders import model_builder
+from object_detection.utils import visualization_utils as viz_utils
 
-PIPELINE_CONFIG = 'D:/HelmetDetection/ssd-mobilenet-v2-fpnlite/pipeline.config'
-LABELMAP = 'D:/HelmetDetection/data/labelmap.pbtxt'
-IMAGE_PATH = 'D:/HelmetDetection/images.jpg'
+PIPELINE_CONFIG = '/home/sotiris/Helmet-Detection/ssd-mobilenet-v2-fpnlite/pipeline.config'
+LABELMAP = '/home/sotiris/Helmet-Detection/data/labelmap.pbtxt'
+IMAGE_PATH = '/home/sotiris/Helmet-Detection/images/image_13.jpg' #'/home/sotiris/Helmet-Detection/images/image_12.jpg'
+TRAINING_PATH = '/home/sotiris/Helmet-Detection/training'
 
 # Load pipeline config and build a detection model
 configs = config_util.get_configs_from_pipeline_file(PIPELINE_CONFIG)
@@ -18,7 +20,7 @@ detection_model = model_builder.build(model_config=configs['model'], is_training
 
 # Restore checkpoint
 ckpt = tf.compat.v2.train.Checkpoint(model=detection_model)
-ckpt.restore('D:/HelmetDetection/training/ckpt-4').expect_partial()
+ckpt.restore(os.path.join(TRAINING_PATH,'ckpt-21')).expect_partial()
 
 @tf.function
 def detect_fn(image):
@@ -44,6 +46,7 @@ detections['num_detections'] = num_detections
 detections['detection_classes'] = detections['detection_classes'].astype(np.int64)
 
 label_id_offset = 1
+matplotlib.use('GTK3Agg')
 image_np_with_detections = image_np.copy()
 
 viz_utils.visualize_boxes_and_labels_on_image_array(
@@ -56,6 +59,6 @@ viz_utils.visualize_boxes_and_labels_on_image_array(
             max_boxes_to_draw=5,
             min_score_thresh=.5,
             agnostic_mode=False)
-
-cv2.imshow(image_np_with_detections, cv2.COLOR_BGR2RGB)
+            
+plt.imshow(cv2.cvtColor(image_np_with_detections, cv2.COLOR_BGR2RGB))
 plt.show()

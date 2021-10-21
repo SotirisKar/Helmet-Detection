@@ -7,17 +7,16 @@ import numpy as np
 import cv2
 import os
 
-CONFIG_PATH = '/home/sotiris/Helmet-Detection/ssd-mobilenet-v2-fpnlite/pipeline.config'
-CHECKPOINT_PATH = '/home/sotiris/Helmet-Detection/training'
+CONFIG_PATH = '/home/sotiris/Helmet-Detection/ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8/pipeline.config'
+CHECKPOINT_PATH = '/home/sotiris/Helmet-Detection/ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8/checkpoint'
 ANNOTATION_PATH = '/home/sotiris/Helmet-Detection/data'
-VIDEOS_PATH = '/home/sotiris/Helmet-Detection/videos'
 
 configs = config_util.get_configs_from_pipeline_file(CONFIG_PATH)
 detection_model = model_builder.build(model_config=configs['model'], is_training=False)
 
 # Restore checkpoint
 ckpt = tf.compat.v2.train.Checkpoint(model=detection_model)
-ckpt.restore(os.path.join(CHECKPOINT_PATH, 'ckpt-31')).expect_partial()
+ckpt.restore(os.path.join(CHECKPOINT_PATH, 'ckpt-0')).expect_partial()
 
 @tf.function
 def detect_fn(image):
@@ -27,10 +26,10 @@ def detect_fn(image):
     return detections
 
 
-category_index = label_map_util.create_category_index_from_labelmap(ANNOTATION_PATH+'/labelmap.pbtxt')
+category_index = label_map_util.create_category_index_from_labelmap(ANNOTATION_PATH+'/mscoco_label_map.pbtxt')
 
-#cap = cv2.VideoCapture(0)                                       # For Web-Cam
-cap = cv2.VideoCapture(os.path.join(VIDEOS_PATH,'traffic_2.mp4'))    # For video
+#cap = cv2.VideoCapture(0)                                           # For Web-Cam
+cap = cv2.VideoCapture('/home/sotiris/Helmet-Detection/videos/vid_12.mp4')    # For video
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
@@ -68,10 +67,7 @@ while True:
     min_score_thresh=.5
     for i in range(min(max_boxes_to_draw, boxes.shape[0])):
         if scores is None or scores[i] > min_score_thresh:
-            detection = classes[i] + 1
-            #print ("Class:",category_index[detection]['name'], "  Score:", scores[i]) # "Coordinates:",boxes[i])
-            if category_index[detection]['name'] == 'motorcycle' and category_index[detection]['name'] == 'helmet':
-                print('wrong')
+            print ("Class:",category_index[label_id_offset]['name'], "  Score:", scores[i]) # "Coordinates:",boxes[i])
     cv2.imshow('object detection',  cv2.resize(image_np_with_detections, (800, 600)))
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
