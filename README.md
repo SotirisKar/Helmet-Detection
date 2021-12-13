@@ -37,14 +37,14 @@ bash requirements.sh
 
 Run the commands:
 
-```python
+```Python
 cd Helmet_Detection_w_RGB
 python3 detect_camera.py
 ```
 
 or without RGB:
 
-```python
+```Python
 cd Helmet_Detection/tensorflow_lite
 python3 detect_camera.py
 ```
