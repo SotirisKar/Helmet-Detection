@@ -1,7 +1,7 @@
 # Helmet Detection
 
 <p align="center">
-  <img width="1000" height="250" src="https://user-images.githubusercontent.com/36128807/145787802-6488657f-0974-4acc-8db7-d5546906b40a.png">
+  <img width="1000" height="250" src="https://user-images.githubusercontent.com/36128807/145789823-586c4b98-a606-456a-a515-eae0b88f78cb.jpeg">
 </p>
 
 ## About MHVision
