@@ -7,7 +7,7 @@
 ## About MHVision
 
 
-[![](https://img.shields.io/badge/Visit-Motohunt-darkblue)](https://inaccel.com/)
+[![](https://img.shields.io/badge/Visit-inAccel-darkblue)](https://inaccel.com/)
 [![](https://img.shields.io/badge/Python-3.8-blue)](https://www.python.org/)
 [![](https://img.shields.io/badge/Tensorflow-2.7.0-orange)](https://www.tensorflow.org/)
 [![](https://img.shields.io/badge/NumPy-1.21.1-lightblue)](https://numpy.org/)
