@@ -15,7 +15,8 @@
 [![](https://img.shields.io/badge/OpenCV-4.5.4-brightgreen)](https://opencv.org/)
 [![](https://img.shields.io/badge/Pillow-8.3.2-9cf)](https://pillow.readthedocs.io/en/stable/)
 
-A Tensorflow project that detects if the motorcycle rider wears helmet or not. Can be used either from raspberry pi 4 or Linux machine. Created with Python.
+A Tensorflow project that detects if the motorcycle rider wears helmet or not. Can be used either from raspberry pi 4 or Linux machine. 
+Created with Python.
 
 ## How to Install requirements
 
