@@ -20,7 +20,7 @@ VIDEO_PATH = args.video
 MIN_THRESH = float(args.threshold)
 
 # Load the model
-interpreter = tflite.Interpreter(model_path=MODEL_PATH)
+interpreter = tflite.Interpreter(model_path=MODEL_PATH, experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
 
 # Load the labels
 with open(LABEL_PATH, 'r') as f:
