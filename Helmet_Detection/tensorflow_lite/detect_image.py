@@ -43,7 +43,8 @@ print('Loading model...', end='')
 start_time = time.time()
 
 # LOAD TFLITE MODEL
-interpreter = tflite.Interpreter(model_path=PATH_TO_MODEL_DIR)
+interpreter = tflite.Interpreter(model_path=MODEL_PATH, experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
+
 # LOAD LABELS
 with open(PATH_TO_LABELS, 'r') as f:
     labels = [line.strip() for line in f.readlines()]
