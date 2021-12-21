@@ -20,7 +20,7 @@ parser.add_argument('--model', help='Provide the path to the TFLite file, defaul
 parser.add_argument('--labels', help='Provide the path to the Labels, default is models/labels.txt',
                     default='saved_models/labels.txt')
 parser.add_argument('--image', help='Name of the single image to perform detection on',
-                    default='test.png')
+                    default='test_data/moto_img_1.jpg')
 parser.add_argument('--threshold', help='Minimum confidence threshold for displaying detected objects',
                     default=0.5)
                     
