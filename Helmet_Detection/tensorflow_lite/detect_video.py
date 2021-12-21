@@ -9,7 +9,7 @@ parser.add_argument('--model', help='Provide the path to the TFLite file, defaul
                     default='~/saved_models/model_edgetpu.tflite')
 parser.add_argument('--labels', help='Provide the path to the Labels, default is models/labels.txt',
                     default='~/saved_models/labels.txt')
-parser.add_argument('--video', help='Name of the video to perform detection on', required=True)
+parser.add_argument('--video', help='Name of the video to perform detection on', default='~/test_data/moto_vid_2.mp4')
 parser.add_argument('--threshold', help='Minimum confidence threshold for displaying detected objects',
                     default=0.5)
 args = parser.parse_args()
