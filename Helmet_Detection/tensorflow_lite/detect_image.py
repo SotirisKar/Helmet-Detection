@@ -16,7 +16,7 @@ import importlib.util
         
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', help='Provide the path to the TFLite file, default is models/model.tflite',
-                    default='saved_models/model.tflite')
+                    default='saved_models/model_edgetpu.tflite')
 parser.add_argument('--labels', help='Provide the path to the Labels, default is models/labels.txt',
                     default='saved_models/labels.txt')
 parser.add_argument('--image', help='Name of the single image to perform detection on',
