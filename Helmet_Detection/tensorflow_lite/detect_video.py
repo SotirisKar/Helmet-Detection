@@ -6,9 +6,9 @@ import cv2
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', help='Provide the path to the TFLite file, default is models/model.tflite',
-                    default='/home/sotiris/Helmet-Detection/tensorflow_lite/saved_models/model.tflite')
+                    default='~/saved_models/model_edgetpu.tflite')
 parser.add_argument('--labels', help='Provide the path to the Labels, default is models/labels.txt',
-                    default='/home/sotiris/Helmet-Detection/tensorflow_lite/saved_models/labels.txt')
+                    default='~/saved_models/labels.txt')
 parser.add_argument('--video', help='Name of the video to perform detection on', required=True)
 parser.add_argument('--threshold', help='Minimum confidence threshold for displaying detected objects',
                     default=0.5)
