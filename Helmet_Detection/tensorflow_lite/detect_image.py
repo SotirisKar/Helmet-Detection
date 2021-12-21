@@ -1,6 +1,3 @@
-# This is Edje Electronics' code with some minor adjustments
-# Credit goes to his repo: https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi
-
 import tflite_runtime.interpreter as tflite
 import os
 import argparse
@@ -10,9 +7,6 @@ import sys
 import time
 from threading import Thread
 import importlib.util
-
-# Define VideoStream class to handle streaming of video from webcam in separate processing thread
-# Source - Adrian Rosebrock, PyImageSearch: https://www.pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
         
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', help='Provide the path to the TFLite file, default is models/model.tflite',
@@ -38,7 +32,6 @@ IMAGE_PATH = args.image
 # PROVIDE THE MINIMUM CONFIDENCE THRESHOLD
 MIN_CONF_THRESH = float(args.threshold)
 
-import time
 print('Loading model...', end='')
 start_time = time.time()
 
