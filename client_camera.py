@@ -7,6 +7,7 @@ import argparse
 import socket
 import time
 import cv2
+import os
 
 # Connect with Raspberry pi 4
 def sendMessage(msg):
@@ -183,4 +184,4 @@ while True:
     if cv2.waitKey(1) == ord('q'):
         break
 cv2.destroyAllWindows()
-
+os._exit(0)
