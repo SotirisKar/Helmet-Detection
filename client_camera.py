@@ -13,7 +13,7 @@ import os
 def sendMessage(msg):
     s = socket.socket()        
     port = 8080             
-    s.connect(('192.168.1.76', port))
+    s.connect(('192.168.1.79', port))
     s.send(msg.encode())
     s.close()
 
@@ -45,13 +45,13 @@ class VideoStream:
         self.stopped = True
         
 parser = argparse.ArgumentParser()
-parser.add_argument('--thres_heightold', help = 'Minimum confidence threshold',
+parser.add_argument('--thres_heightold', help='Minimum confidence threshold',
                     default=0.5)
-parser.add_argument('--resolution', help = 'Camera resolution. Needs to be supported', default='640x480')
+parser.add_argument('--resolution', help='Camera resolution. Needs to be supported', default='640x480')
                     
 args = parser.parse_args()
-MODEL_PATH = 'models/model_edgetpu.tflite'
-LABEL_PATH = 'models/labels.txt'
+MODEL_PATH = 'saved_models/model.tflite'
+LABEL_PATH = 'saved_models/labels.txt'
 MIN_THRESH = float(args.thres_heightold)
 
 res_width, res_height = args.resolution.split('x')
@@ -116,7 +116,7 @@ while True:
             label_ymin = max(ymin, labelSize[1] + 10)
             cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED)
             cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
-            current_count += 1
+            current_count+=1
             
             # Change Colors
             if object_name == 'helmet':
@@ -163,14 +163,26 @@ while True:
     if x == 'Wears Helmet':
         cv2.putText(frame,x,(15,160),cv2.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2,cv2.LINE_AA)
         msg = 'H'
-        sendMessage(msg)
+        try:
+            sendMessage(msg)
+        except Exception as e:
+            print(e)
+            os._exit(0)
     elif x == 'No Helmet':
         cv2.putText(frame,x,(15,160),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255),2,cv2.LINE_AA)
         msg = 'NH'
-        sendMessage(msg)
+        try:
+            sendMessage(msg)
+        except Exception as e:
+            print(e)
+            os._exit(0)
     else:
         msg = 'N'
-        sendMessage(msg) 
+        try:
+            sendMessage(msg)
+        except Exception as e:
+            print(e)
+            os._exit(0)
     cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(15,30),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,55),2,cv2.LINE_AA)
     if len(objects) != 0:
         cv2.putText(frame, str(objects),(15,115),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,55),2,cv2.LINE_AA)
