@@ -44,9 +44,9 @@ class VideoStream:
         self.stopped = True
         
 parser = argparse.ArgumentParser()
-parser.add_argument('--thres_heightold', help='Minimum confidence threshold',
+parser.add_argument('--thres_heightold', help = 'Minimum confidence threshold',
                     default=0.5)
-parser.add_argument('--resolution', help='Camera resolution. Needs to be supported', default='640x480')
+parser.add_argument('--resolution', help = 'Camera resolution. Needs to be supported', default='640x480')
                     
 args = parser.parse_args()
 MODEL_PATH = 'saved_models/model.tflite'
@@ -115,7 +115,7 @@ while True:
             label_ymin = max(ymin, labelSize[1] + 10)
             cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED)
             cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
-            current_count+=1
+            current_count += 1
             
             # Change Colors
             if object_name == 'helmet':
