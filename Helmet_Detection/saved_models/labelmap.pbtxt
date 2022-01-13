@@ -1,8 +1,0 @@
-item { 
-	name:'motorcycle'
-	id:1
-}
-item { 
-	name:'helmet'
-	id:2
-}
