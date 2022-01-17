@@ -50,7 +50,7 @@ parser.add_argument('--thres_heightold', help='Minimum confidence threshold',
 parser.add_argument('--resolution', help='Camera resolution. Needs to be supported', default='640x480')
                     
 args = parser.parse_args()
-MODEL_PATH = 'models/model.tflite'
+MODEL_PATH = 'models/model_edgetpu.tflite'
 LABEL_PATH = 'models/labels.txt'
 MIN_THRESH = float(args.thres_heightold)
 
