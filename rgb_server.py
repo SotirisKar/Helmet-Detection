@@ -5,7 +5,7 @@ import socket
 s = socket.socket()
 port = 8080
 s.bind(('', port))
-s.listen(5)
+s.listen(1)
 print('Socket is listening at port %s' % port)
 image = ''
 prev_msg = ''
@@ -16,7 +16,7 @@ while True:
     c.send('Connection successful'.encode())
     if 'msg' in locals():   # Keep memory of previous message
         prev_msg = msg
-    msg = c.recv(5).decode()
+    msg = c.recv(1).decode()
     c.close()
     if prev_msg != msg:     # To avoid flickering & 2 images same time 
         if msg == 'H':
