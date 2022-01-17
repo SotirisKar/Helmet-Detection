@@ -20,14 +20,14 @@ while True:
     c.close()
     if prev_msg != msg:     # To avoid flickering & 2 images same time 
         if msg == 'H':
-            image = 'images/helmet.jpg'
+            image = '/home/pi/helmet-detection/images/helmet.jpg' # full path required
             h = Process(target=displayMatrix, args=([image]))
             if nh.is_alive() == True:
                 nh.terminate()
                 h.start()
 
         elif msg == 'NH':
-            image = 'images/no_helmet.jpg'
+            image = '/home/pi/helmet-detection/images/no_helmet.jpg' # full path required
             nh = Process(target=displayMatrix, args=([image]))
             if h.is_alive() == True:
                 h.terminate()
