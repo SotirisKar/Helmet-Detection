@@ -16,7 +16,7 @@ while True:
     c.send('Connection successful'.encode())
     if 'msg' in locals():   # Keep memory of previous message
         prev_msg = msg
-    msg = c.recv(1).decode()
+    msg = c.recv(2).decode()
     c.close()
     if prev_msg != msg:     # To avoid flickering & 2 images same time 
         if msg == 'H':
