@@ -58,7 +58,7 @@ res_width, res_height = args.resolution.split('x')
 video_width, video_height = int(res_width), int(res_height)
 
 # Load the model
-interpreter = tflite.Interpreter(model_path=MODEL_PATH, experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
+interpreter = tflite.Interpreter(model_path=MODEL_PATH, experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')]) #remove exp_delegetes if not Google Coral
 
 # Load the labels
 with open(LABEL_PATH, 'r') as f:
