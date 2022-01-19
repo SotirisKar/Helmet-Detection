@@ -22,7 +22,7 @@ class VideoStream:
         self.stream = cv2.VideoCapture(0)
         for i in range(1,6):
             if i==5:
-                print('\nNo camera detected\n')
+                print('\nNo camera detected')
                 os._exit(0)
             if not self.stream.isOpened():
                 self.stream = cv2.VideoCapture(i)
