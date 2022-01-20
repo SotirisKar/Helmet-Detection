@@ -190,7 +190,8 @@ while True:
         except Exception as e:
             print(e)
             os._exit(0)
-    cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(15,30),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,55),2,cv2.LINE_AA)
+    cv2.rectangle(frame, (10,10),(135,30+7),(0,0,0),-1)
+    cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(15,30),cv2.FONT_HERSHEY_SIMPLEX,0.7,(255,255,255),1,cv2.LINE_AA)
     if len(objects) != 0:
         cv2.putText(frame, str(objects),(15,115),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,55),2,cv2.LINE_AA)
     cv2.imshow('', frame)
