@@ -88,7 +88,7 @@ frame_rate_calc = 1
 freq = cv2.getTickFrequency()
 
 # Videostream
-videostream = VideoStream(resolution=(video_width,video_height),framerate=30).start()
+videostream = VideoStream(resolution=(video_width,video_height),framerate=60).start()
 
 while True:
     current_count=0
