@@ -194,7 +194,7 @@ while True:
     cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(15,30),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,55),2,cv2.LINE_AA)
     if len(objects) != 0:
         cv2.putText(frame, str(objects),(15,115),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,55),2,cv2.LINE_AA)
-    cv2.imshow('Object Detector', frame)
+    cv2.imshow('', frame)
 
     # Calculate framerate
     t2 = cv2.getTickCount()
