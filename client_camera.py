@@ -17,14 +17,14 @@ def sendMessage(msg):
     s.close()
 
 class VideoStream:
-    def __init__(self,resolution=(640,480),framerate=30):
+    def __init__(self,resolution=(1280,720),framerate=60):
         self.stream = cv2.VideoCapture(0)
-        for i in range(1,6):
-            if i==5:
+        for dev in range(1,6):
+            if dev==5:
                 print('\nNo camera detected')
                 os._exit(0)
             if not self.stream.isOpened():
-                self.stream = cv2.VideoCapture(i)
+                self.stream = cv2.VideoCapture(dev)
                 continue
             else:
                 break
@@ -55,7 +55,7 @@ class VideoStream:
 parser = argparse.ArgumentParser()
 parser.add_argument('--thres_heightold', help='Minimum confidence threshold',
                     default=0.5)
-parser.add_argument('--resolution', help='Camera resolution. Needs to be supported', default='640x480')
+parser.add_argument('--resolution', help='Camera resolution. Needs to be supported', default='1280x720')
                     
 args = parser.parse_args()
 MODEL_PATH = 'models/model_edgetpu.tflite'
