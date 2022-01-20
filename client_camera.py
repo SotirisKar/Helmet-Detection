@@ -1,5 +1,4 @@
 import tflite_runtime.interpreter as tflite
-from multiprocessing import Process
 from collections import Counter
 from threading import Thread
 import numpy as np
