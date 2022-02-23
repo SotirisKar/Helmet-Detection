@@ -18,13 +18,13 @@ A Tensorflow project that detects if the motorcycle rider wears helmet or not. C
 Created with Python.
 
 ## How to Install requirements
-For the ## Coral Dev Board ## installation,
+For the Coral Dev Board installation,
 Run the command:
 
 ```sh
 bash requirements.sh
 ```
-For the ## Raspberry pi4 ## installation,
+For the Raspberry pi4 installation,
 Run the command:
 
 ```sh
@@ -43,16 +43,13 @@ After installation you can delete rpi-rgb-led-matrix directory.
 
 ## Run the detection
 
-Run the commands:
+For the Raspberry pi4 run the command:
 
 ```Python
-cd Helmet_Detection_w_RGB
-python3 detect_camera.py
+python3 rgb_server.py
 ```
-
-or without RGB:
+For the Coral Dev Board run the command:
 
 ```Python
-cd Helmet_Detection/tensorflow_lite
-python3 detect_camera.py
+python3 client_camera.py
 ```
