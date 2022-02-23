@@ -41,7 +41,7 @@ sudo make install-python PYTHON=$(which python3)
 After installation you can delete rpi-rgb-led-matrix directory.
 
 
-## Run the detection
+## Run SafeDisplay
 
 For the Raspberry pi4 run the command:
 
