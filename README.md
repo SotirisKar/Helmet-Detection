@@ -1,4 +1,4 @@
-# Helmet Detection
+# SafeDisplay
 
 <p align="center">
   <img width="1000" height="300" src="https://user-images.githubusercontent.com/36128807/145789823-586c4b98-a606-456a-a515-eae0b88f78cb.jpeg">
@@ -12,24 +12,34 @@
 [![](https://img.shields.io/badge/OpenCV-4.5.4-brightgreen)](https://opencv.org/)
 [![](https://img.shields.io/badge/Pillow-8.3.2-9cf)](https://pillow.readthedocs.io/en/stable/)
 
+## About SafeDisplay
+
 A Tensorflow project that detects if the motorcycle rider wears helmet or not. Can be used either from raspberry pi 4 or Linux machine. 
 Created with Python.
 
 ## How to Install requirements
-
-Run the commands:
-
-```sh
-cd Helmet_Detection_w_RGB/utils
-bash requirements.sh
-```
-
-or:
+For the ## Coral Dev Board ## installation,
+Run the command:
 
 ```sh
-cd Helmet_Detection/tensorflow_lite
 bash requirements.sh
 ```
+For the ## Raspberry pi4 ## installation,
+Run the command:
+
+```sh
+git clone https://github.com/hzeller/rpi-rgb-led-matrix.git
+```
+Now, move directory into the repo folder and install:
+
+```sh
+cd rpi-rgb-led-matrix
+make build-python PYTHON=$(which python3)
+sudo make install-python PYTHON=$(which python3)
+```
+
+After installation you can delete rpi-rgb-led-matrix directory.
+
 
 ## Run the detection
 
