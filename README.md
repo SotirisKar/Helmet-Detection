@@ -46,7 +46,7 @@ After installation you can delete rpi-rgb-led-matrix directory.
 For the Raspberry pi4 run the command:
 
 ```Python
-python3 rgb_server.py
+python3 display_server.py
 ```
 For the Coral Dev Board run the command:
 
