@@ -144,11 +144,11 @@ while True:
         delay_no = 0
         delay_yes = 0
         
-    # Delay for the next 30 frames
+    # Delay for the next 20 frames
     if x == 'No Helmet':
-        delay_no = fps_count + 30
+        delay_no = fps_count + 20
     elif x == 'Wears Helmet':
-        delay_yes = fps_count + 30
+        delay_yes = fps_count + 20
 
     if fps_count <= delay_yes:
         x = 'Wears Helmet'
