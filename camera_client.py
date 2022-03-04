@@ -1,8 +1,14 @@
+from apscheduler.schedulers.background import BackgroundScheduler
 import tflite_runtime.interpreter as tflite
+from pydrive.drive import GoogleDrive
+from pydrive.auth import GoogleAuth
 from collections import Counter
 from threading import Thread
+from pytz import utc
+import pandas as pd
 import numpy as np
 import argparse
+import datetime
 import socket
 import cv2
 import os
@@ -15,9 +21,27 @@ def sendMessage(msg):
     s.send(msg.encode())
     s.close()
 
+# Create logs/stats
+boolean = False	# Value used for apscheduler
+os.chdir(os.path.dirname(__file__))
+if os.path.exists('stats') == False:
+    os.mkdir('stats')
+csv_path = 'stats/stats.csv'
+if os.path.isfile(csv_path) == False:
+    df = pd.DataFrame({'Motorcycles': [],
+                       'Helmets': [],
+                       'Time': [],
+                       'Day': [],
+                       'Month': [],
+                       'Year' : []},
+                      )
+    df.to_csv(csv_path, index=False)
+else:
+    df = pd.read_csv(csv_path)
+
 class VideoStream:
     def __init__(self,resolution=(1280,720),framerate=60):
-        self.stream = cv2.VideoCapture(1)
+        self.stream = cv2.VideoCapture(0)
         ret = self.stream.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
         ret = self.stream.set(3,resolution[0])
         ret = self.stream.set(4,resolution[1])
@@ -33,7 +57,6 @@ class VideoStream:
             if self.stopped:
                 self.stream.release()
                 return
-
             (self.grabbed, self.frame) = self.stream.read()
 
     def read(self):
@@ -43,20 +66,19 @@ class VideoStream:
         self.stopped = True
         
 parser = argparse.ArgumentParser()
-parser.add_argument('--thres_heightold', help='Minimum confidence threshold',
-                    default=0.4)
+parser.add_argument('--thres', help='Minimum confidence threshold', default=0.4)
 parser.add_argument('--resolution', help='Camera resolution. Needs to be supported', default='1280x720')
                     
 args = parser.parse_args()
-MODEL_PATH = 'models/model_edgetpu.tflite'
+MODEL_PATH = 'models/model.tflite'
 LABEL_PATH = 'models/labels.txt'
-MIN_THRESH = float(args.thres_heightold)
+MIN_THRESH = float(args.thres)
 
 res_width, res_height = args.resolution.split('x')
 video_width, video_height = int(res_width), int(res_height)
 
 # Load the model
-interpreter = tflite.Interpreter(model_path=MODEL_PATH, experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')]) #remove exp_delegetes if not Google Coral
+interpreter = tflite.Interpreter(model_path=MODEL_PATH)
 
 # Load the labels
 with open(LABEL_PATH, 'r') as f:
@@ -78,14 +100,53 @@ input_std = 127.5
 frame_rate_calc = 1
 freq = cv2.getTickFrequency()
 
-# Videostream
-videostream = VideoStream(resolution=(video_width,video_height),framerate=60).start()
+# Scheduler to record statistics
+sched = BackgroundScheduler(daemon=True, timezone=utc)
+@sched.scheduled_job('interval', minutes=5)
+def statistics():
+    print('Stats Recorded to File.')
+    global boolean
+    boolean = True
+    date = datetime.datetime.now()
+    time = date.strftime("%H:%M")
+    day = date.strftime("%d")
+    month = date.strftime("%m")
+    year = date.strftime("%Y")
+    data = ({'Motorcycles': [total_motos],
+            'Helmets': [total_helmets],
+            'Time': [time],
+            'Day': [day],
+            'Month': [month],
+            'Year' : [year]
+            })
+    df = pd.DataFrame(data)
+    df.to_csv(csv_path, mode='a', index=False, header=False)
+    
+@sched.scheduled_job('interval', minutes=10)
+def upload():
+    print('Stats Uploaded to Drive.')
+    date = datetime.datetime.now()
+    filename = date.strftime("%d/%m")
+    folder = '1KHPqVPhlgOLb5_iX0hKk7a_M_aLrY4Nz'
+    csv_path = 'stats/stats.csv'
+    setting_file = 'settings.yml'
+    gauth = GoogleAuth(settings_file=setting_file)      
+    drive = GoogleDrive(gauth)
+    gfile = drive.CreateFile({'parents': [{'id': folder}], 'title' : filename})
+    gfile.SetContentFile(csv_path)
+    gfile.Upload()
+    df = pd.read_csv(csv_path)
+    df = df.iloc[0:0]
+    df.to_csv(csv_path, index=False)
+sched.start()
 
+# Run videostream
+videostream = VideoStream(resolution=(video_width,video_height),framerate=60).start()
+    
 while True:
     current_count=0
     t1 = cv2.getTickCount()
-    frame_read = videostream.read()
-    frame = frame_read.copy()
+    frame = videostream.read()
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     frame_resized = cv2.resize(frame_rgb, (width, height))
     input_data = np.expand_dims(frame_resized, axis=0)
@@ -130,7 +191,7 @@ while True:
             objects = Counter(object_list)
             
     x = None
-    if 'motorcycle' in object_list: 
+    if 'motorcycle' in object_list:
         if object_list.count('motorcycle') == object_list.count('helmet'):
             x = 'Wears Helmet'
         elif object_list.count('motorcycle') > object_list.count('helmet'):
@@ -144,6 +205,15 @@ while True:
         delay_no = 0
         delay_yes = 0
         
+    if 'motocount' not in locals():
+        motocount = 0
+    if 'helmetcount' not in locals():
+        helmetcount = 0
+    if 'total_motos' not in locals():
+        total_motos = 0
+    if 'total_helmets' not in locals():
+        total_helmets = 0
+
     # Delay for the next 20 frames
     if x == 'No Helmet':
         delay_no = fps_count + 20
@@ -156,8 +226,10 @@ while True:
         x = 'No Helmet'
     if fps_count > delay_yes and fps_count > delay_no:
         x = None
+        delay_no = 0
+        delay_yes = 0
+        fps_count = 0
 
-    # Draw Results & Send them to Raspberry Pi 4
     if x == 'Wears Helmet':
         cv2.rectangle(frame, (10,70),(170,97),(0,0,0),-1)
         cv2.putText(frame,x,(15,90),cv2.FONT_HERSHEY_SIMPLEX,0.7,(0,255,0),1,cv2.LINE_AA)
@@ -167,6 +239,15 @@ while True:
         except Exception as e:
             print(e)
             os._exit(0)
+        if object_list.count('helmet') > helmetcount:
+            helmetcount = object_list.count('helmet')
+        if fps_count == delay_yes:
+            total_motos += motocount
+            total_helmets += helmetcount
+            motocount = 0
+            helmetcount = 0
+            print('Motorcycles: {}'.format(total_motos))
+            print('Helmets: {}'.format(total_helmets))
     elif x == 'No Helmet':
         cv2.rectangle(frame, (10,70),(135,97),(0,0,0),-1)
         cv2.putText(frame,x,(15,90),cv2.FONT_HERSHEY_SIMPLEX,0.7,(0,0,255),1,cv2.LINE_AA)
@@ -176,6 +257,14 @@ while True:
         except Exception as e:
             print(e)
             os._exit(0)
+        if object_list.count('motorcycle') > motocount:
+            motocount = object_list.count('motorcycle')
+        if fps_count == delay_no:
+            total_motos += motocount
+            motocount = 0
+            helmetcount = 0
+            print('Motorcycles: {}'.format(total_motos))
+            print('Helmets: {}'.format(total_helmets))
     else:
         msg = 'N'
         try:
@@ -188,13 +277,19 @@ while True:
     if len(objects) != 0:
         cv2.rectangle(frame, (10,35),(440,62+7),(0,0,0),-1)
         cv2.putText(frame, str(objects),(15,60),cv2.FONT_HERSHEY_SIMPLEX,0.7,(255,255,255),1,cv2.LINE_AA)
-    cv2.imshow('', frame)
+    cv2.imshow('',frame)
+    
+    # Default stats after scheduled register
+    if boolean == True:
+        total_motos = 0
+        total_helmets = 0
+        boolean = False
 
     # Calculate framerate
     t2 = cv2.getTickCount()
     time1 = (t2-t1)/freq
-    frame_rate_calc= 1/time1
-
+    frame_rate_calc= 1/time1 
+    
     if cv2.waitKey(1) == ord('q'):
         break
 cv2.destroyAllWindows()
