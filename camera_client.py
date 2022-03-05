@@ -23,7 +23,7 @@ def sendMessage(msg):
 
 # Create logs/stats
 boolean = False	# Value used for apscheduler
-os.chdir(os.path.dirname(__file__))
+os.chdir(os.path.dirname(os.path.abspath(__file__))
 if os.path.exists('stats') == False:
     os.mkdir('stats')
 csv_path = 'stats/stats.csv'
@@ -70,7 +70,7 @@ parser.add_argument('--thres', help='Minimum confidence threshold', default=0.4)
 parser.add_argument('--resolution', help='Camera resolution. Needs to be supported', default='1280x720')
                     
 args = parser.parse_args()
-MODEL_PATH = 'models/model.tflite'
+MODEL_PATH = 'models/model_edgetpu.tflite'
 LABEL_PATH = 'models/labels.txt'
 MIN_THRESH = float(args.thres)
 
