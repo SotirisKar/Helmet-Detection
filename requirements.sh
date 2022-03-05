@@ -2,6 +2,7 @@
 #bash requirements.sh
 
 sudo apt install python3-dev python3-pip
+python3 -m pip install --upgrade pip
 pip3 install opencv-contrib-python
 pip3 install APScheduler
 pip3 install PyDrive
