@@ -51,5 +51,5 @@ python3 display_server.py
 For the Coral Dev Board run the command:
 
 ```Python
-python3 client_camera.py
+python3 camera_client.py
 ```
