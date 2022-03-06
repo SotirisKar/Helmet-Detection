@@ -3,12 +3,12 @@
 
 sudo apt install python3-dev python3-pip
 python3 -m pip install --upgrade pip
-pip3 install opencv-contrib-python
-pip3 install APScheduler
-pip3 install PyDrive
-pip3 install pytz
-pip3 install pandas
-pip3 install numpy
-pip3 install https://github.com/google-coral/pycoral/releases/download/v2.0.0/tflite_runtime-2.5.0.post1-cp37-cp37m-linux_armv7l.whl#sha256=9175f1bb1c2f1f5c921117735a81943f85411248d78781453435a9bbfc212b91
+python3 -m pip install opencv-python
+python3 -m pip install APScheduler
+python3 -m pip install PyDrive
+python3 -m pip install pytz
+python3 -m pip install pandas
+python3 -m pip install numpy
+python3 -m pip install https://github.com/google-coral/pycoral/releases/download/v2.0.0/tflite_runtime-2.5.0.post1-cp37-cp37m-linux_armv7l.whl
 
 echo "INFO: Installation Complete."
