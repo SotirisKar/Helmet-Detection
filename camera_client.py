@@ -47,21 +47,17 @@ class VideoStream:
         ret = self.stream.set(4,resolution[1])
         (self.grabbed, self.frame) = self.stream.read()
         self.stopped = False
-
     def start(self):
         Thread(target=self.update,args=()).start()
         return self
-
     def update(self):
         while True:
             if self.stopped:
                 self.stream.release()
                 return
             (self.grabbed, self.frame) = self.stream.read()
-
     def read(self):
         return self.frame
-
     def stop(self):
         self.stopped = True
         
@@ -121,7 +117,8 @@ def statistics():
             })
     df = pd.DataFrame(data)
     df.to_csv(csv_path, mode='a', index=False, header=False)
-    
+
+# Scheduler to upload recorded statistics                                                                                
 @sched.scheduled_job('interval', minutes=10)
 def upload():
     print('Stats Uploaded to Drive.')
@@ -142,7 +139,6 @@ sched.start()
 
 # Run videostream
 videostream = VideoStream(resolution=(video_width,video_height),framerate=60).start()
-    
 while True:
     current_count=0
     t1 = cv2.getTickCount()
@@ -279,7 +275,7 @@ while True:
         cv2.putText(frame, str(objects),(15,60),cv2.FONT_HERSHEY_SIMPLEX,0.7,(255,255,255),1,cv2.LINE_AA)
     cv2.imshow('',frame)
     
-    # Default stats after scheduled register
+    # Defaults stats after scheduled register
     if boolean == True:
         total_motos = 0
         total_helmets = 0
