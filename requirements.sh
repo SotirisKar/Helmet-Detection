@@ -1,7 +1,7 @@
 #!/bin/bash
 #bash requirements.sh
 
-sudo apt install python3-dev python3-pip
+sudo apt-get install python3-dev python3-pip
 python3 -m pip install --upgrade pip
 sudo apt-get install python3-opencv
 python3 -m pip install APScheduler
