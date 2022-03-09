@@ -2,8 +2,9 @@ from utils.display import displayMatrix
 from multiprocessing import Process
 import socket
 import time
+import os
 
-os.chdir(os.path.dirname(os.path.abspath(__file__))
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 s = socket.socket()
 port = 8080
 s.bind(("", port))
@@ -12,10 +13,16 @@ print(f"Socket is listening at port {port}")
 image = ""
 prev_msg = ""
 n=h=nh=con = Process(target=displayMatrix, args=([image]))
+
+c, addr = s.accept()
+print(f"Connection established with {addr}")
+con = Process(target=displayMatrix, args=([image]))
+con.start()
+time.sleep(2)
+con.terminate()
+
 while True:
     c, addr = s.accept()
-    print(f"Connection established with {addr}")
-    c.send("Connection established".encode())
     if "msg" in locals():                                            # keep memory of previous message
         prev_msg = msg
     msg = c.recv(2).decode()
