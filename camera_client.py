@@ -175,13 +175,15 @@ while True:
             
             # Change Colors
             if object_name == 'helmet':
-                cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine), (0, 255, 0), cv2.FILLED)
-                cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (0, 255, 0), 1)
+                cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine), (0, 160, 0), cv2.FILLED)
+                cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (0, 160, 0), 1)
+            elif object_name == 'motorcycle':
+                cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (0, 0, 160), 1)
+                cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine), (0, 0, 160), cv2.FILLED)
             else:
-                cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (0, 0, 255), 1)
-                cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine), (0, 0, 255), cv2.FILLED)
+                cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (160, 0, 0), 1)
+                cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine), (160, 0, 0), cv2.FILLED)
             cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 1)
-                
             object_list.append(i)
             object_list[i] = object_name
             objects = Counter(object_list)
