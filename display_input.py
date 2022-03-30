@@ -21,13 +21,13 @@ while True:
         prev_gpio = [GPIO.input(18),GPIO.input(24)]
         if prev_gpio == [1,1]:
             image = "images/helmet.jpg"                     # Display helmet image
-            h = Process(target=displayMatrix, args=image)
+            h = Process(target=displayMatrix, args=[image])
             if nh.is_alive() == True:
                 nh.terminate()                              # Kill previous image
             h.start()
         elif prev_gpio == [1,0]:                            # Display No Helmet image
             image = "images/no_helmet.jpg"
-            nh = Process(target=displayMatrix, args=image)
+            nh = Process(target=displayMatrix, args=[image])
             if h.is_alive() == True:
                 h.terminate()
             nh.start()
