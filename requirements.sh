@@ -4,6 +4,7 @@
 sudo apt-get install python3-dev python3-pip
 python3 -m pip install --upgrade pip
 sudo apt-get install python3-opencv
+python3 -m pip install python-periphery
 python3 -m pip install APScheduler
 python3 -m pip install PyDrive
 python3 -m pip install pytz
