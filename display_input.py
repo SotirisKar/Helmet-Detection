@@ -4,9 +4,9 @@ import RPi.GPIO as GPIO
 import time
 import os
 
-image = ""
+image = "images/connected.jpg"
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-n=h=nh = Process(target=displayMatrix, args=image)
+n=h=nh = Process(target=displayMatrix, args=[image])
 
 GPIO.setwarnings(False)                                     # Disable Warnings
 GPIO.setmode(GPIO.BCM)                                      # Read GPIOs
@@ -14,6 +14,10 @@ GPIO.setup(18, GPIO.IN)
 GPIO.setup(24, GPIO.IN)
 prev_gpio = [GPIO.input(18),GPIO.input(24)]                 # Remember previous state for GPIOs
 print("INFO: Starting GPIO input detection.")
+
+n.start()                                                   # Visual Confirmation that script runs
+time.sleep(3)
+n.terminate()
 
 while True:
     time.sleep(.5)
