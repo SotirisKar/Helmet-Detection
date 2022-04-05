@@ -2,6 +2,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import tflite_runtime.interpreter as tflite
 from pydrive.drive import GoogleDrive
 from pydrive.auth import GoogleAuth
+from screeninfo import get_monitors
 from collections import Counter
 from threading import Thread
 from periphery import GPIO
@@ -36,8 +37,13 @@ if os.path.isfile(csv_path) == False:
 else:
     df = pd.read_csv(csv_path)
 
+# Get full screen resolution
+for m in get_monitors():
+    height = m.height
+    width = m.width
+
 class VideoStream:
-    def __init__(self,resolution=(1280,720),framerate=60):
+    def __init__(self,resolution=(width, height),framerate=60):
         self.stream = cv2.VideoCapture(1)
         ret = self.stream.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
         ret = self.stream.set(3,resolution[0])
@@ -59,8 +65,8 @@ class VideoStream:
         self.stopped = True
         
 parser = argparse.ArgumentParser()
-parser.add_argument('--thres', help='Minimum confidence threshold', default=0.4)
-parser.add_argument('--resolution', help='Camera resolution. Needs to be supported', default='1280x720')
+parser.add_argument('--thres', help='Minimum confidence threshold', default=0.5)
+parser.add_argument('--resolution', help='Camera resolution. Needs to be supported', default='{}x{}'.format(width, height))
                     
 args = parser.parse_args()
 MODEL_PATH = 'models/model_edgetpu.tflite'
