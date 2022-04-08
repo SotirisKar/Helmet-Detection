@@ -1,9 +1,8 @@
 from flask import Flask, render_template, Response
 import tflite_runtime.interpreter as tflite
-from screeninfo import get_monitors
 from collections import Counter
 from threading import Thread
-#from periphery import GPIO
+from periphery import GPIO
 from pytz import utc
 import pandas as pd
 import numpy as np
@@ -15,17 +14,13 @@ import os
 app = Flask(__name__)
 
 # Read GPIOs
-#GPIO_29 = GPIO("/dev/gpiochip0", 7, "out")
-#GPIO_31 = GPIO("/dev/gpiochip0", 8, "out")
+GPIO_29 = GPIO("/dev/gpiochip0", 7, "out")
+GPIO_31 = GPIO("/dev/gpiochip0", 8, "out")
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-for m in get_monitors():
-    height = m.height
-    width = m.width
-
 class VideoStream:
-    def __init__(self,resolution=(width, height),framerate=60):
-        self.stream = cv2.VideoCapture(0)
+    def __init__(self,resolution=(1920, 1080),framerate=60):
+        self.stream = cv2.VideoCapture(1)
         ret = self.stream.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
         ret = self.stream.set(3,resolution[0])
         ret = self.stream.set(4,resolution[1])
@@ -52,10 +47,10 @@ class VideoStream:
 parser = argparse.ArgumentParser()
 parser.add_argument('--thres_heightold', help='Minimum confidence threshold',
                     default=0.4)
-parser.add_argument('--resolution', help='Camera resolution. Needs to be supported', default='{}x{}'.format(width, height))
+parser.add_argument('--resolution', help='Camera resolution. Needs to be supported', default='1920x1080')
                     
 args = parser.parse_args()
-MODEL_PATH = 'models/model.tflite'
+MODEL_PATH = 'models/model_edgetpu.tflite'
 LABEL_PATH = 'models/labels.txt'
 MIN_THRESH = float(args.thres_heightold)
 
@@ -63,7 +58,7 @@ res_width, res_height = args.resolution.split('x')
 video_width, video_height = int(res_width), int(res_height)
 
 # Load the model
-interpreter = tflite.Interpreter(model_path=MODEL_PATH)
+interpreter = tflite.Interpreter(model_path=MODEL_PATH, experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
 
 # Load the labels
 with open(LABEL_PATH, 'r') as f:
@@ -183,9 +178,8 @@ def gen_frames(videostream, frame_rate_calc, freq, video_width, video_height):
             cv2.rectangle(frame, (10,70),(170,97),(0,0,0),-1)
             cv2.putText(frame,x,(15,90),cv2.FONT_HERSHEY_SIMPLEX,0.7,(0,255,0),1,cv2.LINE_AA)
             try:
-                dummy_for_non_gpio_use = True
-                #GPIO_29.write(True)
-                #GPIO_31.write(True)
+                GPIO_29.write(True)
+                GPIO_31.write(True)
             except Exception as e:
                 print(e)
                 os._exit(0)
@@ -193,17 +187,15 @@ def gen_frames(videostream, frame_rate_calc, freq, video_width, video_height):
             cv2.rectangle(frame, (10,70),(135,97),(0,0,0),-1)
             cv2.putText(frame,x,(15,90),cv2.FONT_HERSHEY_SIMPLEX,0.7,(0,0,255),1,cv2.LINE_AA)
             try:
-                dummy_for_non_gpio_use = True
-                #GPIO_29.write(True)
-                #GPIO_31.write(False)
+                GPIO_29.write(True)
+                GPIO_31.write(False)
             except Exception as e:
                 print(e)
                 os._exit(0)
         else:
             try:
-                dummy_for_non_gpio_use = True
-                #GPIO_29.write(False)
-                #GPIO_31.write(False)
+                GPIO_29.write(False)
+                GPIO_31.write(False)
             except Exception as e:
                 print(e)
                 os._exit(0)
