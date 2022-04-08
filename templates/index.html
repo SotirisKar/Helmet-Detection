@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/icon" href="{{ url_for('static', filename='icons/favicon.png') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8"/>
+    <title>SafeDisplay - Livefeed</title>
+</head>
+<body>
+    <div class="main-grid">
+        <div class="item-1">&nbsp;
+            <div class="date-time">
+                <div id="clock">dfgfdgfdg</div>
+                <div id="date">gfdgdfg</div>
+            </div>
+            <img src="{{ url_for('static',filename='icons/icon.png') }}" class="logo">
+        </div>
+        <div class="item-2">&nbsp;
+            <div class="livefeed-grid">
+                <img src="{{ url_for('video_feed') }}" class="livefeed">
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+</html>

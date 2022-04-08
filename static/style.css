@@ -1,0 +1,70 @@
+* {
+    margin:0;
+    padding:0;
+}
+html, body {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #dee1e6;
+}
+.main-grid { 
+    gap: 0px;
+    display: grid;
+    height: 900px;
+    width: 1770px;
+    align-self: center;
+    grid-template-rows: 15% 1fr 1fr;
+    grid-template-columns: 0 1fr 1fr 1fr;
+}
+.item-1 {
+    grid-row-end: 2;
+    grid-row-start: 1;
+    grid-column-end: 5;
+    grid-column-start: 1;
+    background-color: #ffffff;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+.logo {
+    width: 250px;
+    margin: 3%;
+}
+.date-time {
+    float: right;
+    margin: 1% 3%;
+}
+#clock {
+    font-size: 4rem;
+    color: #bcbdc0;
+    font-weight: bold;
+    font-family: "Gill Sans", sans-serif;
+}
+#date {
+    font-size: 1rem;
+    color: #bcbdc0;
+    margin: -10px 8px;
+    font-family: "Gill Sans", sans-serif;
+}
+.item-2 {
+    grid-row-end: 4;
+    grid-row-start: 2;
+    grid-column-end: 5;
+    grid-column-start: 2;
+    background-color: #ffffff;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+.livefeed-grid{
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.livefeed {
+    width: 80%;
+    height: 90%;
+}
