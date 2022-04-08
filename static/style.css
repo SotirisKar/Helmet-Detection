@@ -13,7 +13,7 @@ html, body {
     gap: 0px;
     display: grid;
     height: 900px;
-    width: 1770px;
+    width: 1600px;
     align-self: center;
     grid-template-rows: 15% 1fr 1fr;
     grid-template-columns: 0 1fr 1fr 1fr;
@@ -65,6 +65,6 @@ html, body {
     justify-content: center;
 }
 .livefeed {
-    width: 80%;
-    height: 90%;
+    width: 90%;
+    height: 100%;
 }
