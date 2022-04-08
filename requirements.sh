@@ -8,7 +8,6 @@ python3 -m pip install --upgrade pip
 
 python3 -m pip install python-periphery
 python3 -m pip install APScheduler
-python3 -m pip install screeninfo
 python3 -m pip install PyDrive
 python3 -m pip install pandas
 python3 -m pip install Flask
