@@ -13,6 +13,6 @@ python3 -m pip install pandas
 python3 -m pip install Flask
 python3 -m pip install numpy
 python3 -m pip install pytz
-python3 -m pip install https://github.com/google-coral/pycoral/releases/download/v2.0.0/tflite_runtime-2.5.0.post1-cp37-cp37m-linux_armv7l.whl
+python3 -m pip install https://github.com/google-coral/pycoral/releases/download/v2.0.0/tflite_runtime-2.5.0.post1-cp38-cp38-linux_aarch64.whl
 
 echo "INFO: Installation Complete."
