@@ -6,7 +6,7 @@ import os
 
 image = "images/connected.jpg"
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-n=h=nh = Process(target=displayMatrix, args=[image])
+n=h=b=nh = Process(target=displayMatrix, args=[image])
 
 GPIO.setwarnings(False)                                     # Disable Warnings
 GPIO.setmode(GPIO.BCM)                                      # Read GPIOs
@@ -18,6 +18,13 @@ print("INFO: Starting GPIO input detection.")
 n.start()                                                   # Visual Confirmation that script runs
 time.sleep(3)
 n.terminate()
+
+# To Get Rid of zombie colored pixels
+image = "images/black.jpg"
+b = Process(target=displayMatrix, args=[image])
+b.start()
+time.sleep(.5)
+b.terminate()
 
 while True:
     time.sleep(.5)
@@ -40,3 +47,8 @@ while True:
                 h.terminate()
             if nh.is_alive() == True:
                 nh.terminate()
+
+            b = Process(target=displayMatrix, args=[image])
+            b.start()
+            time.sleep(.5)
+            b.terminate()
