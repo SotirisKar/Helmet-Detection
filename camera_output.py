@@ -95,7 +95,7 @@ freq = cv2.getTickFrequency()
 
 # Scheduler to record statistics
 sched = BackgroundScheduler(daemon=True, timezone=utc)
-@sched.scheduled_job('interval', minutes=5)
+@sched.scheduled_job('interval', hours=1)
 def statistics():
     print('Stats Recorded to File.')
     global boolean
@@ -116,7 +116,7 @@ def statistics():
     df.to_csv(csv_path, mode='a', index=False, header=False)
 
 # Scheduler to upload recorded statistics                                                                                
-@sched.scheduled_job('interval', minutes=10)
+@sched.scheduled_job('interval', hours=12)
 def upload():
     print('Stats Uploaded to Drive.')
     date = datetime.datetime.now()
