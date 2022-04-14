@@ -11,6 +11,7 @@
 [![](https://img.shields.io/badge/Pandas-1.3.2-darkblue)](https://pandas.pydata.org/)
 [![](https://img.shields.io/badge/OpenCV-4.5.4-brightgreen)](https://opencv.org/)
 [![](https://img.shields.io/badge/Pillow-8.3.2-9cf)](https://pillow.readthedocs.io/en/stable/)
+[![](https://img.shields.io/badge/Flask-2.1.1-white)](https://flask.palletsprojects.com/)
 
 ## About SafeDisplay
 
@@ -51,10 +52,14 @@ rm -rf rpi-rgb-led-matrix
 For the Raspberry pi4 run the command:
 
 ```Python
-python3 display_server.py
+sudo python3 display_input.py
 ```
 For the Coral Dev Board run the command:
 
 ```Python
-python3 camera_client.py
+python3 camera_output.py
+```
+or for the web application:
+```Python
+python3 web-app.py
 ```
