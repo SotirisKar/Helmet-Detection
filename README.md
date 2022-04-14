@@ -13,7 +13,6 @@
 [![](https://img.shields.io/badge/Pillow-8.3.2-9cf)](https://pillow.readthedocs.io/en/stable/)
 [![](https://img.shields.io/badge/Flask-2.1.1-white)](https://flask.palletsprojects.com/)
 [![](https://img.shields.io/badge/PyDrive-1.3.1-yellow)](https://pythonhosted.org/PyDrive/)
-[![](https://img.shields.io/badge/APScheduler-3.9.1-darkgreen)](https://apscheduler.readthedocs.io/en/3.x/)
 
 ## About SafeDisplay
 
