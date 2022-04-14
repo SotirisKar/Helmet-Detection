@@ -22,7 +22,7 @@ For the Coral Dev Board installation,
 Run the command:
 
 ```sh
-bash requirements.sh
+sudo bash requirements.sh
 ```
 For the Raspberry pi4 installation,
 Run the command:
@@ -38,8 +38,13 @@ make build-python PYTHON=$(which python3)
 sudo make install-python PYTHON=$(which python3)
 ```
 
-After installation you can delete rpi-rgb-led-matrix directory.
-
+After installation you need to move rgbmatrix folder to utils and delete rpi-rgb-led-matrix directory.
+```sh
+cd bindings/python
+mv rgbmatrix /home/pi/SafeDisplay/utils
+cd .. (Till you get to rpi directory)
+rm -rf rpi-rgb-led-matrix
+```
 
 ## Run SafeDisplay
 
