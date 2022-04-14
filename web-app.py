@@ -46,7 +46,7 @@ class VideoStream:
         
 parser = argparse.ArgumentParser()
 parser.add_argument('--thres_heightold', help='Minimum confidence threshold',
-                    default=0.4)
+                    default=0.3)
 parser.add_argument('--resolution', help='Camera resolution. Needs to be supported', default='1920x1080')
                     
 args = parser.parse_args()
