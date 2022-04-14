@@ -94,7 +94,8 @@ def gen_frames(videostream, frame_rate_calc, freq, video_width, video_height):
         if floating_model:
             input_data = (np.float32(input_data) - input_mean) / input_std
 
-        interpreter.set_tensor(input_details[0]['index'],input_data)
+        interpreter = tflite.Interpreter(model_path=MODEL_PATH, experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])    
+        interpreter.allocate_tensors()
         interpreter.invoke()
 
         boxes = interpreter.get_tensor(output_details[1]['index'])[0]
