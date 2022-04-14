@@ -45,7 +45,7 @@ After installation you need to move rgbmatrix folder to utils and delete rpi-rgb
 ```sh
 cd bindings/python
 mv rgbmatrix /home/pi/SafeDisplay/utils
-cd .. (Till you get to rpi directory)
+cd ..
 rm -rf rpi-rgb-led-matrix
 ```
 
