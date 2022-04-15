@@ -16,8 +16,7 @@
 
 ## About SafeDisplay
 
-A Tensorflow project that detects if the motorcycle rider wears a helmet or not. Can be used either from raspberry pi 4 or Linux machine. 
-Created with Python.
+A Tensorflow project that detects if the motorcycle rider wears a helmet or not and records stats.
 
 ## How to Install requirements
 For the Coral Dev Board installation,
