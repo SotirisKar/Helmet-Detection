@@ -134,7 +134,7 @@ def upload():
     df.to_csv(csv_path, index=False)
 sched.start()
 
-# Run videostream
+# Process image and visualize object detection
 videostream = VideoStream(resolution=(video_width,video_height),framerate=60).start()
 while True:
     current_count=0
@@ -170,7 +170,7 @@ while True:
             cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
             current_count+=1
             
-            # Change Colors
+            # Change Colors to squares
             if object_name == 'helmet':
                 cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine), (0, 160, 0), cv2.FILLED)
                 cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (0, 160, 0), 1)
@@ -224,7 +224,8 @@ while True:
         delay_no = 0
         delay_yes = 0
         fps_count = 0
-
+    
+    # Send signals to GPIOs and create stats
     if x == 'Wears Helmet':
         cv2.rectangle(frame, (10,70),(170,97),(0,0,0),-1)
         cv2.putText(frame,x,(15,90),cv2.FONT_HERSHEY_SIMPLEX,0.7,(0,255,0),1,cv2.LINE_AA)
@@ -274,7 +275,7 @@ while True:
         cv2.putText(frame, str(objects),(15,60),cv2.FONT_HERSHEY_SIMPLEX,0.7,(255,255,255),1,cv2.LINE_AA)
     cv2.imshow('',frame)
     
-    # Defaults stats after scheduled register
+    # Default stats after scheduled register
     if boolean == True:
         total_motos = 0
         total_helmets = 0
