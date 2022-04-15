@@ -4,7 +4,6 @@
   <img width="100%" height="100%" src="https://user-images.githubusercontent.com/36128807/145789823-586c4b98-a606-456a-a515-eae0b88f78cb.jpeg">
 </p>
 
-
 [![](https://img.shields.io/badge/Visit-inAccel-darkblue)](https://inaccel.com/)
 [![](https://img.shields.io/badge/Python-3.8-blue)](https://www.python.org/)
 [![](https://img.shields.io/badge/Tensorflow-2.7.0-orange)](https://www.tensorflow.org/)
